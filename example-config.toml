@@ -1,0 +1,2 @@
+port = 8080
+sqlite_db_path = "/path/to/master.sqlite"
