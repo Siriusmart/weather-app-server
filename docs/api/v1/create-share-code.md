@@ -6,7 +6,7 @@
 ```
 
 ### response (success)
-This is expected, HTTP response code 200
+This is expected, HTTP response code 201
 ```jsonc
 { "kind": "created", "share-code" : string }
 ```
