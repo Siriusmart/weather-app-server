@@ -53,6 +53,7 @@ impl ShareCode {
                 share_code: code,
                 metoffice_key: metoffice_key.to_string(),
             })
+            .on_conflict_do_nothing()
             .execute(conn)?;
 
         Self::get_by_metoffice_key(conn, metoffice_key).map(Option::unwrap)
@@ -84,10 +85,15 @@ impl ShareCode {
     pub fn remove_by_metoffice_key(
         conn: &mut DatabaseConnection,
         metoffice_key: &str,
-    ) -> Result<bool, diesel::result::Error> {
-        Ok(diesel::delete(share_codes::table)
+    ) -> Result<Option<Self>, diesel::result::Error> {
+        let Some(to_remove) = Self::get_by_metoffice_key(conn, metoffice_key)? else {
+            return Ok(None);
+        };
+
+        diesel::delete(share_codes::table)
             .filter(share_codes::metoffice_key.eq(metoffice_key))
-            .execute(conn)?
-            != 0)
+            .execute(conn)?;
+
+        Ok(Some(to_remove))
     }
 }
