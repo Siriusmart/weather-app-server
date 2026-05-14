@@ -8,6 +8,7 @@ axum = "0.8.9"
 diesel = { version = "2.3", features = ["sqlite", "r2d2", "returning_clauses_for_sqlite_3_35"] }
 diesel-derive-newtype = "2.1"
 diesel_migrations = { version = "2.3", features = ["sqlite"] }
+rand = "0.10.1"
 serde = { version = "1.0.228", features = ["derive"] }
 tokio = { version = "1.52.3", features = ["macros", "rt-multi-thread"] }
 toml = "1.1.2"
