@@ -12,10 +12,12 @@ pub struct Request {
 #[derive(Serialize)]
 #[serde(tag = "kind")]
 pub enum Response {
+    #[serde(rename = "revoked")]
     Revoked {
         #[serde(rename = "share-code")]
         share_code: String,
     },
+    #[serde(rename = "error")]
     Error {
         reason: String,
     },
