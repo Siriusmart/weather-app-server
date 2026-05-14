@@ -1,9 +1,11 @@
 use std::{env, path::PathBuf};
 
+use axum::{Router, routing::get};
 use diesel_migrations::{EmbeddedMigrations, MigrationHarness, embed_migrations};
+use tokio::net::TcpListener;
 use tracing::*;
 use tracing_subscriber::EnvFilter;
-use weather_app_server::{Config, Database};
+use weather_app_server::{Config, Database, api};
 
 #[tokio::main]
 
@@ -28,4 +30,12 @@ async fn main() {
     debug!("Successfully ran {migrations_count} migrations");
 
     // init done
+    let app = Router::new()
+        .route("/", get(|| async { "Hello, World!" }))
+        .nest("/api", api::scope());
+
+    let listener = TcpListener::bind(("0.0.0.0", config.port)).await.unwrap();
+
+    info!("Listening on 0.0.0.0:{}", config.port);
+    axum::serve(listener, app).await.unwrap();
 }
