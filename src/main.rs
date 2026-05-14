@@ -31,7 +31,7 @@ async fn main() {
 
     // init done
     let app = Router::new()
-        .route("/", get(|| async { "Hello, World!" }))
+        .route("/", get(|| async { "See API docs on https://github.com/Interaction-Design-Team/weather-app-server" }))
         .nest("/api", api::scope());
 
     let listener = TcpListener::bind(("0.0.0.0", config.port)).await.unwrap();
